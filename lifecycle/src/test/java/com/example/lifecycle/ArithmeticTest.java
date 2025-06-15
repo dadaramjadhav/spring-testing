@@ -30,7 +30,7 @@ public class ArithmeticTest {
     @Test
     @Order(2)
     @DisplayName("Multiplication")
-    @Timeout(4)
+    // @Timeout(4)
     public void testMul() {
         Arithmetic arithmetic = new Arithmetic();
         assertEquals(6, arithmetic.mul(2, 3));

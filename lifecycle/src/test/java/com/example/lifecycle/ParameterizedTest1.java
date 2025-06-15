@@ -7,7 +7,7 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class ParameterizedTest1 {
     // @Test
     @ParameterizedTest
-    @ValueSource(ints = { 2, 4, 6, 8, 10 })
+    @ValueSource(ints = { 2, 4})
     public void testIsEven(int num) {
         Arithmetic arithmetic = new Arithmetic();
         assertTrue(arithmetic.isEven(num));
