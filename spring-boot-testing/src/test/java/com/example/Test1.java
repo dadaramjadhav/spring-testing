@@ -2,8 +2,8 @@ package com.example;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -20,13 +20,16 @@ public class Test1 {
     static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0")
             .withDatabaseName("testdb")
             .withUsername("test")
-            .withPassword("test");
+            .withPassword("test")
+            .withExposedPorts(3306);
 
     @DynamicPropertySource
     static void setProps(DynamicPropertyRegistry registry) {
-        registry.add("spring.datasource.url", mysql::getJdbcUrl);
+        registry.add("spring.datasource.url", () -> "jdbc:mysql://localhost:" + mysql.getMappedPort(3306) + "/testdb");
         registry.add("spring.datasource.username", mysql::getUsername);
         registry.add("spring.datasource.password", mysql::getPassword);
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "update");
+
     }
 
     @Autowired
@@ -42,7 +45,7 @@ public class Test1 {
 
     @Test
     public void mytest() {
-        
+
         Users u = userService.findUserById(10);
         assertEquals("realDB", u.getName());
     }
